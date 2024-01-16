@@ -1,5 +1,6 @@
 import {
     ChangeEvent,
+    ComponentProps,
     KeyboardEvent,
     useEffect,
     useMemo,
@@ -10,6 +11,7 @@ import {
   
   import { RxCross1 } from "react-icons/rx";
   import Avatar from "../Avatar";
+import clsx from "clsx";
   
   export type Option = {
     label: string;
@@ -29,7 +31,7 @@ import {
   const doesLabelMatchInput = (label: string, input: string) =>
     label.toLowerCase().includes(input.toLowerCase());
   
-  export default function MultiSelect({ placeholder = "Type Something...", options = [], values = [], onChange }: MultiSelectOptions) {
+  export default function MultiSelect({ placeholder = "Type Something...", options = [], values = [], onChange, className, ...props }: MultiSelectOptions & Omit<ComponentProps<'div'>, 'onChange'>) {
     const [isOpen, setIsOpen] = useState<boolean>(false);
     const [input, setInput] = useState<string>("");
     const [highlight, setHighlight] = useState(false);
@@ -83,7 +85,7 @@ import {
     });
   
     return (
-      <div ref={parentRef} onKeyDown={handleKeyPress} className={style.select}>
+      <div ref={parentRef} onKeyDown={handleKeyPress} className={clsx(style.select, className??'')} {...props}>
         <div className={style.chipContainer}>
           {values.map((value, i) => {
             return (

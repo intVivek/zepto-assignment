@@ -1,0 +1,11 @@
+.form{
+    width: 100%; height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .multiSelect{
+        width: min(80%, 450px);
+        margin-top: -200px;
+    }
+}
