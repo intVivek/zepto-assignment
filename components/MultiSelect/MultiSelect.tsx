@@ -18,16 +18,16 @@ const isValueNotInArray = (value: string | number, array: Option[]) => !array.so
 
 const doesLabelMatchInput = (label: string, input: string) => label.toLowerCase().includes(input.toLowerCase());
 
-export default function MultiSelect({ options=[], values=[], onChange }: MultiSelectOptions) {
+export default function MultiSelect({ options = [], values = [], onChange }: MultiSelectOptions) {
 
     const [isOpen, setIsOpen] = useState<boolean>(false);
 
     const [input, setInput] = useState<string>('');
 
-    const filteredOptions: Option[] = useMemo(()=> {
+    const filteredOptions: Option[] = useMemo(() => {
         return options.filter((option) => {
             return isValueNotInArray(option.value, values) && doesLabelMatchInput(option.label, input);
-          });
+        });
     }, [values, input])
 
     const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => setInput(e.target.value)
@@ -36,16 +36,20 @@ export default function MultiSelect({ options=[], values=[], onChange }: MultiSe
         onChange([...values, option])
     }
 
-    return <div onClick={()=>setIsOpen(!isOpen)}>
+    const removeItem = (option: Option) => {
+        onChange(values.filter(({ value }) => value !== option.value))
+    }
+
+    return <div onClick={() => setIsOpen(!isOpen)}>
         <div className={style.chipContainer}>
-        {values.map(({label}, i)=>{
-            return <div className={style.chip} key={i}>{label}<RxCross1/></div>
-        })}
+            {values.map((value, i) => {
+                return <div className={style.chip} key={i}>{value.label}<RxCross1 onClick={() => removeItem(value)} /></div>
+            })}
         </div>
-        <input value={input} onChange={handleInputChange}/>
+        <input value={input} onChange={handleInputChange} />
         {isOpen && <div className={style.optionsContainer}>
-            {filteredOptions.map((option, i)=>{
-                return <div className={style.option} onClick={()=>handleItemClick(option)} key={i}>{option.label}</div>
+            {filteredOptions.map((option, i) => {
+                return <div className={style.option} onClick={() => handleItemClick(option)} key={i}>{option.label}</div>
             })}
         </div>}
     </div>
