@@ -1,26 +1,81 @@
-.chipContainer{
-    width: 100%;
-    display: flex;
-    flex-wrap: wrap;
+.select {
+    position: relative;
+    min-width: 350px;
+    max-width: 450px;
+    box-sizing: border-box;
+    user-select: none;
 
-    >.chip{
-        width: max-content;
-        height: 30px;
-        border-radius: 15px;
-        background-color: rgb(212, 212, 212);
+    .chipContainer {
+        position: relative;
+        width: 100%;
+        min-height: 46px;
         display: flex;
         align-items: center;
-        padding: 0px 10px;
-        gap: 5px;
+        flex-wrap: wrap;
+        padding: 8px 10px;
+        background: #eee;
+        border-radius: 24px;
+        box-sizing: border-box;
+        gap: 8px;
+        cursor: text;
+    
+        .chip {
+            width: max-content;
+            height: 30px;
+            border-radius: 15px;
+            background-color: rgb(212, 212, 212);
+            display: flex;
+            align-items: center;
+            padding: 0px 10px;
+            gap: 5px;
+        }
+        .input {
+            display: flex;
+            align-items: center;
+            outline: none;
+            border: none;
+            overflow-wrap: break-all;
+        }
     }
-}
-
-.optionsContainer{
-    display: flex;
-    flex-direction: column;
-
-    >.option{
+    
+    .optionsContainer {
+        position: absolute;
+        left: 0;
         width: 100%;
-        height: 50px;
+        display: flex;
+        flex-direction: column;
+        background: #eee;
+        border-radius: 16px;
+        margin-top: 8px;
+        overflow: hidden;
+        animation: slideIn 0.15s ease-out forwards;
+    
+        .option {
+            padding: 12px 16px;
+            cursor: pointer;
+
+            &:first-child {
+                padding-top: 16px;
+            }
+            &:last-child {
+                padding-bottom: 16px;
+            }
+
+            &:hover {
+                background: #3498f5;
+                color: white;
+            }
+        }
+    }
+
+    @keyframes slideIn {
+        0% {
+            opacity: 0;
+            transform: translateY(-10%);
+        }
+        100% {
+            opacity: 1;
+            transform: translateY(0);
+        }
     }
 }
