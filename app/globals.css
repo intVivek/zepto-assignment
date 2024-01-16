@@ -1,3 +1,8 @@
+:root{
+  --blueShade1: #3498f5;
+  --redShade1: #ee4d41;
+  --grayShade1: #eee;
+}
 
 html body {
   width: 100vw;
