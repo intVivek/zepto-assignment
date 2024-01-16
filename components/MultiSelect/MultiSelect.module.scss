@@ -47,10 +47,11 @@
             align-items: center;
             outline: none;
             border: none;
-            overflow-wrap: break-all;
+            padding-left: 8px;
 
-            &.placeholder:empty:before {
+            &.placeholder:empty::before {
                 content: attr(aria-placeholder);
+                color: #999999;
             }
         }
     }

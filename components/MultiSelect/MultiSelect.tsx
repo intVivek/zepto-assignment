@@ -55,7 +55,7 @@ export default function MultiSelect({ placeholder = "Type Something...", options
     })
 
     return (
-        <div ref={parentRef} className={style.select} onClick={() => { }}>
+        <div ref={parentRef} className={style.select}>
             <div className={style.chipContainer}>
                 {
                     values.map((value, i) => {
@@ -64,7 +64,7 @@ export default function MultiSelect({ placeholder = "Type Something...", options
                         </div>
                     })
                 }
-                <div ref={inputRef} className={`${style.input} ${!input ? 'placeholder' : ''}`} onInput={handleInputChange} contentEditable aria-placeholder={placeholder} />
+                <div ref={inputRef} className={`${style.input} ${!values.length ? style.placeholder : ''}`} onInput={handleInputChange} contentEditable aria-placeholder={placeholder} />
             </div>
             {
                 isOpen && <div className={style.optionsContainer}>
