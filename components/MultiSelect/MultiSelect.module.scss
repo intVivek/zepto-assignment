@@ -44,6 +44,12 @@
                 }
             }
         }
+
+        
+        .highlight{
+            outline: 1px solid #3498f5;
+        }
+
         .input {
             display: flex;
             align-items: center;
@@ -82,7 +88,7 @@
             }
 
             &:hover {
-                background: #3498f5;
+                background: var(--blueShade1);
                 color: white;
             }
         }

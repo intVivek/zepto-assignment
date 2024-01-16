@@ -1,4 +1,4 @@
-import { ChangeEvent, useEffect, useMemo, useRef, useState } from 'react';
+import { ChangeEvent, KeyboardEvent, useEffect, useMemo, useRef, useState } from 'react';
 import style from './MultiSelect.module.scss'
 
 import { RxCross1 } from "react-icons/rx";
@@ -21,6 +21,7 @@ const doesLabelMatchInput = (label: string, input: string) => label.toLowerCase(
 export default function MultiSelect({ placeholder = "Type Something...", options = [], values = [], onChange }: MultiSelectOptions) {
     const [isOpen, setIsOpen] = useState<boolean>(false);
     const [input, setInput] = useState<string>('');
+    const [highlight, setHighlight] = useState(false);
     const parentRef = useRef<HTMLDivElement>(null);
     const inputRef = useRef<HTMLDivElement>(null);
 
@@ -30,12 +31,26 @@ export default function MultiSelect({ placeholder = "Type Something...", options
         });
     }, [values, input])
 
-    const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => setInput(e.target.innerHTML)
+    const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+        setInput(e.target.innerHTML)
+        setHighlight(false)
+    }
     const handleItemClick = (option: Option) => {
         onChange([...values, option])
+        setHighlight(false)
     }
     const removeItem = (option: Option) => {
         onChange(values.filter(({ value }) => value !== option.value))
+        setHighlight(false)
+    }
+
+    const handleKeyPress = (e: KeyboardEvent<HTMLDivElement>) => {
+        if (e.key === 'Backspace') {
+            if (!highlight) return setHighlight(true);
+            values.pop()
+            onChange([...values]);
+            setHighlight(false);
+        }
     }
 
     useEffect(() => {
@@ -54,17 +69,19 @@ export default function MultiSelect({ placeholder = "Type Something...", options
         return () => document.body.removeEventListener('click', onClickListener);
     })
 
+
+
     return (
-        <div ref={parentRef} className={style.select}>
+        <div ref={parentRef} onKeyDown={handleKeyPress} className={style.select}>
             <div className={style.chipContainer}>
                 {
                     values.map((value, i) => {
-                        return <div className={style.chip} key={i}>
+                        return <div className={`${style.chip} ${highlight && i === values.length-1 ? style.highlight : ''}`} key={i}>
                             {value.label}<RxCross1 className={style.remove} onClick={() => removeItem(value)} />
                         </div>
                     })
                 }
-                <div ref={inputRef} className={`${style.input} ${!values.length ? style.placeholder : ''}`} style={{paddingLeft: values.length ? 0 : 8}} onInput={handleInputChange} contentEditable aria-placeholder={placeholder} />
+                <div ref={inputRef} className={`${style.input} ${!values.length ? style.placeholder : ''}`} style={{ paddingLeft: values.length ? 0 : 8 }} onInput={handleInputChange} contentEditable aria-placeholder={placeholder} />
             </div>
             {
                 isOpen && <div className={style.optionsContainer}>
