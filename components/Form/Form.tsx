@@ -1,5 +1,6 @@
 "use client"
 
+import { useState } from "react"
 import MultiSelect from "../MultiSelect"
 import { Option } from "../MultiSelect/MultiSelect"
 
@@ -11,16 +12,14 @@ const options = [
     { label: "Fifth", value: 5 },
   ]
 
-  const values = [
-    { label: "First", value: 1 },
-    { label: "Second", value: 2 },
-    { label: "Third", value: 3 },
-  ]
-
 export default function Form() {
+
+    const [values, setValues] = useState<Option[]>([])
+
+    const HandleChange = (values: Option[]) => {
+        setValues(values)
+    }
     return <div>
-        <MultiSelect options={options} values={values} onChange={function (value: Option[]): void {
-            throw new Error("Function not implemented.")
-        } }/>
+        <MultiSelect options={options} values={values} onChange={HandleChange}/>
     </div>
 }

@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { ChangeEvent, useMemo, useState } from 'react';
 import style from './MultiSelect.module.scss'
 
 import { RxCross1 } from "react-icons/rx";
@@ -14,12 +14,27 @@ interface MultiSelectOptions {
     onChange: (value: Option[]) => void
 }
 
+const isValueNotInArray = (value: string | number, array: Option[]) => !array.some(item => item.value === value);
+
+const doesLabelMatchInput = (label: string, input: string) => label.toLowerCase().includes(input.toLowerCase());
+
 export default function MultiSelect({ options=[], values=[], onChange }: MultiSelectOptions) {
 
-    const [isOpen, setIsOpen] = useState(false);
+    const [isOpen, setIsOpen] = useState<boolean>(false);
 
-    const filteredOptions = useMemo(()=>options, [options, values])
+    const [input, setInput] = useState<string>('');
 
+    const filteredOptions: Option[] = useMemo(()=> {
+        return options.filter((option) => {
+            return isValueNotInArray(option.value, values) && doesLabelMatchInput(option.label, input);
+          });
+    }, [values, input])
+
+    const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => setInput(e.target.value)
+
+    const handleItemClick = (option: Option) => {
+        onChange([...values, option])
+    }
 
     return <div onClick={()=>setIsOpen(!isOpen)}>
         <div className={style.chipContainer}>
@@ -27,9 +42,10 @@ export default function MultiSelect({ options=[], values=[], onChange }: MultiSe
             return <div className={style.chip} key={i}>{label}<RxCross1/></div>
         })}
         </div>
+        <input value={input} onChange={handleInputChange}/>
         {isOpen && <div className={style.optionsContainer}>
-            {filteredOptions.map(({label}, i)=>{
-                return <div className={style.option} key={i}>{label}</div>
+            {filteredOptions.map((option, i)=>{
+                return <div className={style.option} onClick={()=>handleItemClick(option)} key={i}>{option.label}</div>
             })}
         </div>}
     </div>
