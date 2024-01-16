@@ -3,6 +3,7 @@
   --redShade1: #ee4d41;
   --grayShade1: #eee;
   --grayShade2: #999999;
+  --grayShade3: #c3c3c3;
 }
 
 html body {
@@ -10,4 +11,24 @@ html body {
   height: 100vh;
   margin: 0px;
   padding: 0px;
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-track {
+ background: #f1f1f1;
+ border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+ background: #888;
+ border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+ background: #555;
 }

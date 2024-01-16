@@ -18,7 +18,7 @@
         box-sizing: border-box;
         gap: 8px;
         cursor: text;
-    
+
         .chip {
             width: max-content;
             height: 30px;
@@ -26,7 +26,6 @@
             background-color: #d4d4d4;
             display: flex;
             align-items: center;
-            padding: 0px 2px 0 10px;
             transform-origin: 0% 50%;
             animation: chipIn 0.1s ease-out forwards;
 
@@ -43,10 +42,16 @@
                     color: white;
                 }
             }
+
+            .avatar {
+                width: 25px;
+                height: 25px;
+                margin-right: 4px;
+            }
         }
 
-        
-        .highlight{
+
+        .highlight {
             outline: 1px solid var(--blueShade1);
         }
 
@@ -63,39 +68,56 @@
             }
         }
     }
-    
+
     .optionsContainer {
         position: absolute;
         left: 0;
         width: 100%;
-        display: flex;
-        flex-direction: column;
-        background: var(--grayShade1);
+        overflow: hidden;
+        max-height: 400px;
+        height: 400px;
         border-radius: 16px;
         margin-top: 8px;
-        overflow: hidden;
+        background: var(--grayShade1);
         animation: slideIn 0.15s ease-out forwards;
-    
-        .option {
-            padding: 12px 16px;
-            cursor: pointer;
 
-            &:first-child {
-                padding-top: 16px;
-            }
-            &:last-child {
-                padding-bottom: 16px;
+        .optionsWindow {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            overflow: overlay;
+
+            .option {
+                padding: 12px 16px;
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                gap: 8px;
+
+                &:first-child {
+                    padding-top: 16px;
+                }
+
+                &:last-child {
+                    padding-bottom: 16px;
+                }
+
+                &:hover {
+                    background: var(--blueShade1);
+                    color: white;
+                }
             }
 
-            &:hover {
-                background:  var(--blueShade1);
-                color: white;
+            .avatar {
+                width: 33px;
+                height: 33px;
             }
-        }
 
-        .resultNotFound{
-            padding: 12px 16px;
-            color: var(--grayShade2);
+            .resultNotFound {
+                padding: 12px 16px;
+                color: var(--grayShade2);
+            }
         }
     }
 
@@ -104,6 +126,7 @@
             opacity: 0;
             transform: translateY(-10%);
         }
+
         100% {
             opacity: 1;
             transform: translateY(0);
@@ -115,6 +138,7 @@
             opacity: 0;
             scale: 0;
         }
+
         100% {
             opacity: 1;
             scale: 1;

@@ -2,10 +2,12 @@ import { ChangeEvent, KeyboardEvent, useEffect, useMemo, useRef, useState } from
 import style from './MultiSelect.module.scss'
 
 import { RxCross1 } from "react-icons/rx";
+import Avatar from '../Avatar';
 
 export type Option = {
-    label: string
-    value: string | number
+    label: string;
+    value: string | number;
+    icon: string
 }
 
 interface MultiSelectOptions {
@@ -77,19 +79,19 @@ export default function MultiSelect({ placeholder = "Type Something...", options
                 {
                     values.map((value, i) => {
                         return <div className={`${style.chip} ${highlight && i === values.length - 1 ? style.highlight : ''}`} key={i}>
-                            {value.label}<RxCross1 className={style.remove} onClick={() => removeItem(value)} />
+                            <Avatar className={style.avatar} icon={value.icon} name={value.label} />{value.label}<RxCross1 className={style.remove} onClick={() => removeItem(value)} />
                         </div>
                     })
                 }
                 <div ref={inputRef} className={`${style.input} ${!values.length ? style.placeholder : ''}`} style={{ paddingLeft: values.length ? 0 : 8 }} onInput={handleInputChange} contentEditable aria-placeholder={placeholder} />
             </div>
             {
-                isOpen && <div className={style.optionsContainer}>
+                isOpen && <div className={style.optionsContainer}><div className={style.optionsWindow}>
                     {filteredOptions.length > 0 ? filteredOptions.map((option, i) => {
-                        return <div className={style.option} onClick={() => handleItemClick(option)} key={i}>{option.label}</div>
+                        return <div className={style.option} onClick={() => handleItemClick(option)} key={i}><Avatar className={style.avatar} icon={option.icon} name={option.label} />{option.label}</div>
                     }) : <div className={style.resultNotFound}>No Results found</div>
                     }
-                </div>
+                </div></div>
             }
         </div>
     )
