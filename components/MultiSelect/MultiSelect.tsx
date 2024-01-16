@@ -76,7 +76,7 @@ export default function MultiSelect({ placeholder = "Type Something...", options
             <div className={style.chipContainer}>
                 {
                     values.map((value, i) => {
-                        return <div className={`${style.chip} ${highlight && i === values.length-1 ? style.highlight : ''}`} key={i}>
+                        return <div className={`${style.chip} ${highlight && i === values.length - 1 ? style.highlight : ''}`} key={i}>
                             {value.label}<RxCross1 className={style.remove} onClick={() => removeItem(value)} />
                         </div>
                     })
@@ -85,9 +85,10 @@ export default function MultiSelect({ placeholder = "Type Something...", options
             </div>
             {
                 isOpen && <div className={style.optionsContainer}>
-                    {filteredOptions.map((option, i) => {
+                    {filteredOptions.length > 0 ? filteredOptions.map((option, i) => {
                         return <div className={style.option} onClick={() => handleItemClick(option)} key={i}>{option.label}</div>
-                    })}
+                    }) : <div className={style.resultNotFound}>No Results found</div>
+                    }
                 </div>
             }
         </div>

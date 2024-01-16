@@ -59,7 +59,7 @@
 
             &.placeholder:empty::before {
                 content: attr(aria-placeholder);
-                color: #999999;
+                color: var(--grayShade2);
             }
         }
     }
@@ -91,6 +91,11 @@
                 background:  var(--blueShade1);
                 color: white;
             }
+        }
+
+        .resultNotFound{
+            padding: 12px 16px;
+            color: var(--grayShade2);
         }
     }
 
