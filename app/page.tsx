@@ -1,10 +1,11 @@
 import Form from '@/components/Form'
 import styles from './page.module.scss'
 
-export default function Home() {
+export default async function Home() {
+
   return (
     <main className={styles.main}>
-      <Form/>
+      <Form />
     </main>
   )
 }

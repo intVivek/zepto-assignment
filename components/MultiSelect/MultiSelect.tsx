@@ -29,7 +29,7 @@ export default function MultiSelect({ placeholder = "Type Something...", options
         return options.filter((option) => {
             return isValueNotInArray(option.value, values) && doesLabelMatchInput(option.label, input);
         });
-    }, [values, input])
+    }, [options, values, input])
 
     const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
         setInput(e.target.innerHTML)
