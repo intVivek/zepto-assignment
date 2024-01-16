@@ -64,7 +64,7 @@ export default function MultiSelect({ placeholder = "Type Something...", options
                         </div>
                     })
                 }
-                <div ref={inputRef} className={`${style.input} ${!values.length ? style.placeholder : ''}`} onInput={handleInputChange} contentEditable aria-placeholder={placeholder} />
+                <div ref={inputRef} className={`${style.input} ${!values.length ? style.placeholder : ''}`} style={{paddingLeft: values.length ? 0 : 8}} onInput={handleInputChange} contentEditable aria-placeholder={placeholder} />
             </div>
             {
                 isOpen && <div className={style.optionsContainer}>
