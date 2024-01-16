@@ -9,6 +9,7 @@ export type Option = {
 }
 
 interface MultiSelectOptions {
+    placeholder?: string,
     options: Option[];
     values: Option[];
     onChange: (value: Option[]) => void
@@ -17,10 +18,11 @@ interface MultiSelectOptions {
 const isValueNotInArray = (value: string | number, array: Option[]) => !array.some(item => item.value === value);
 const doesLabelMatchInput = (label: string, input: string) => label.toLowerCase().includes(input.toLowerCase());
 
-export default function MultiSelect({ options = [], values = [], onChange }: MultiSelectOptions) {
+export default function MultiSelect({ placeholder = "Type Something...", options = [], values = [], onChange }: MultiSelectOptions) {
     const [isOpen, setIsOpen] = useState<boolean>(false);
     const [input, setInput] = useState<string>('');
-    const ref = useRef<HTMLDivElement>(null);
+    const parentRef = useRef<HTMLDivElement>(null);
+    const inputRef = useRef<HTMLDivElement>(null);
 
     const filteredOptions: Option[] = useMemo(() => {
         return options.filter((option) => {
@@ -30,7 +32,6 @@ export default function MultiSelect({ options = [], values = [], onChange }: Mul
 
     const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => setInput(e.target.innerHTML)
     const handleItemClick = (option: Option) => {
-        setIsOpen(false)
         onChange([...values, option])
     }
     const removeItem = (option: Option) => {
@@ -38,21 +39,32 @@ export default function MultiSelect({ options = [], values = [], onChange }: Mul
     }
 
     useEffect(() => {
-        if (isOpen) ref?.current?.focus()
-        else ref?.current?.blur()
-    }, [isOpen, ref])
-    
+        const onClickListener = (e: MouseEvent) => {
+            if (parentRef.current?.contains(e.target as HTMLDivElement)) {
+                inputRef?.current?.focus();
+                setIsOpen(true);
+            }
+            else {
+                inputRef?.current?.blur();
+                setIsOpen(false);
+            }
+        }
+
+        document.body.addEventListener('click', onClickListener)
+        return () => document.body.removeEventListener('click', onClickListener);
+    })
+
     return (
-        <div className={style.select} onClick={(e) => {e.preventDefault(); setIsOpen(true)}}>
+        <div ref={parentRef} className={style.select} onClick={() => { }}>
             <div className={style.chipContainer}>
                 {
                     values.map((value, i) => {
                         return <div className={style.chip} key={i}>
-                            {value.label}<RxCross1 onClick={() => removeItem(value)} />
+                            {value.label}<RxCross1 className={style.remove} onClick={() => removeItem(value)} />
                         </div>
                     })
                 }
-                <div ref={ref} className={style.input} onInput={handleInputChange} contentEditable data-aria-placeholder='Enter' />
+                <div ref={inputRef} className={`${style.input} ${!input ? 'placeholder' : ''}`} onInput={handleInputChange} contentEditable aria-placeholder={placeholder} />
             </div>
             {
                 isOpen && <div className={style.optionsContainer}>
